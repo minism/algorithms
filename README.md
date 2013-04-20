@@ -1,4 +1,0 @@
-algorithms
-==========
-
-Programming puzzles
