@@ -10,17 +10,17 @@ def is_bipartite(G):
     # BFS graph, alternating colors
     queue = collections.deque()
     init = random.choice(G.keys())
-    color = 0
+    colors[init] = 0
     queue.appendleft(init)
     while len(queue) > 0:
         curr = queue.pop()
-        colors[curr] = color
-        color = (color + 1) % 2
+        next_color = (colors[curr] + 1) % 2
         for neighboor in G[curr]:
             if colors.get(neighboor):
-                if colors[neighboor] != color:
+                if colors[neighboor] != next_color:
                     return False
             else:
+                colors[neighboor] = next_color
                 queue.appendleft(neighboor)
     return True
 
