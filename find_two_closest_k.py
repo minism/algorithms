@@ -2,6 +2,8 @@
 # within the same range as the array, find the pair of numbers in the array
 # whose sum is closest to K
 
+# n log n + n = O(n log n)
+
 
 import random
 import sys
