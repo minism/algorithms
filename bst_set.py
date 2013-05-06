@@ -39,33 +39,32 @@ class BSTSet(object):
         return bool(self.bst.find(data))
 
     def get(self, index):
-        # Random access on ordered set.  Perform in-order DFS on BST
-        # stack = [self.bst]
-        # while len(stack) > 0:
-        pass
+        for i, data in enumerate(self.inorder()):
+            if i == index:
+                return data
 
     def inorder(self):
-        # In order generator for the bst
-        parents = []
-        node = self.bst
-        while len(parents) > 0 or node is not None:
-            while node.left:
-                parents.append(node)
-                node = node.left
-            print node.data
-            if node.right:
-                parents.append(node)
-                node = node.right
+        current = self.bst
+        stack = []
+        while len(stack) > 0 or current is not None:
+            if current is not None:
+                stack.append(current)
+                current = current.left
+            else:
+                current = stack.pop()
+                yield current.data
+                current = current.right
+
+    def preorder(self):
+        stack = [self.bst]
+        while len(stack) > 0:
+            curr = stack.pop()
+            if curr is not None:
+                yield curr.data
+                stack.append(curr.right)
+                stack.append(curr.left)
 
 
-        # node = node or self.bst
-        # if node.left:
-        #     self.inorder(node=node.left)
-        # print node.data
-        # if node.right:
-        #     self.inorder(node=node.right)
-
-        return None
 
 
 
@@ -74,11 +73,11 @@ class BSTSet(object):
 
 
 s = BSTSet()
-s.insert(20)
+s.insert(10)
+s.insert(5)
+s.insert(15)
 s.insert(1)
-s.insert(30)
 s.insert(6)
-s.insert(-5)
-s.insert(2)
-
-print(list(s.inorder()))
+s.insert(11)
+s.insert(50)
+assert(s.get(2) == 6)
