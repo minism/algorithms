@@ -9,24 +9,39 @@ def swap(A, i, j):
     A[j] = tmp
 
 
+def sift(A, start, end):
+    # Repeatedly swap with smaller child to preserve min-heap
+    curr = start
+    while curr * 2 + 1 <= end:
+        child = curr * 2 + 1
+        to_swap = curr
+        if A[child] > A[curr]:
+            to_swap = child
+        if child + 1 <= end and A[child + 1] > A[to_swap]:
+            to_swap = child + 1
+        if to_swap == curr:
+            return  # Done
+        swap(A, curr, to_swap)
+        curr = to_swap
+
 
 def heapify(A):
-    for heap_index in range(1, len(A)):
-        current = heap_index
-        parent = int(heap_index / 2)
-        while parent > 0 and A[current - 1] > A[parent - 1]:
-            swap(A, parent-1, current-1)
-            current = parent
-            parent = int(parent / 2)
+    # Start at last parent index
+    size = len(A) - 1
+    i = (size - 1) / 2
+    while i >= 0:
+        sift(A, i, size)
+        i -= 1
     return A
 
 
 def heapsort(A):
     heapify(A)
-    for i in range(len(A)):
-        # heapify(A)
-        # end = len(A) - 1 - i
-        # swap(A, 0, end)
+    size = len(A)
+    for i in range(size):
+        sortIndex = size - i - 1
+        swap(A, 0, sortIndex)
+        sift(A, 0, sortIndex - 1)
     return A
 
 
@@ -49,5 +64,6 @@ def printHeap(heap, items=[1], level=1):
 
 crap = [random.randint(0, 100) for n in range(8)]
 
-# print heapsort(crap)
 printHeap(heapify(crap))
+print
+print heapsort(crap)
